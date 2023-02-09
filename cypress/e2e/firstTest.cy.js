@@ -2,12 +2,6 @@
 
 describe("Test with backend", () => {
   beforeEach(() => {
-    cy.intercept(
-      { method: "Get", path: "tags" },
-      {
-        fixture: "tags.json",
-      }
-    );
     cy.loginToApplication();
   });
 
@@ -41,7 +35,7 @@ describe("Test with backend", () => {
       .and("contain", "testing");
   });
 
-  it.only("intercepting and modifying the request and response", () => {
+  it("intercepting and modifying the request and response", () => {
     cy.intercept("POST", "https://api.realworld.io/api/articles/", (req) => {
       req.body.article.description = "This is a description 2";
       req.reply((res) => {
@@ -100,5 +94,52 @@ describe("Test with backend", () => {
 
       cy.get("app-article-list button").eq(1).click().should("contain", "6");
     });
+  });
+
+  it.only("delete a new article", () => {
+    cy.request("POST", "https://api.realworld.io/api/users/login", {
+      user: {
+        email: "bokew24132@moneyzon.com",
+        password: "111111",
+      },
+    })
+      .its("body")
+      .then((body) => {
+        const token = body.user.token;
+
+        cy.request({
+          method: "POST",
+          url: "https://api.realworld.io/api/articles/",
+          headers: {
+            authorization: `Token ${token}`,
+          },
+          body: {
+            article: {
+              tagList: [],
+              title: "Request from API",
+              description: "API testing is easy",
+              body: "React is cool",
+            },
+          },
+        }).then((response) => {
+          expect(response.status).to.equal(200);
+
+          cy.contains("Global Feed").click();
+          cy.get(".article-preview").first().click();
+          cy.get(".article-actions").contains("Delete Article").click();
+
+          cy.request({
+            method: "GET",
+            url: "https://api.realworld.io/api/articles?limit=10&offset=0",
+            headers: {
+              authorization: `Token ${token}`,
+            },
+          }).then((response) => {
+            expect(response.body.articles[0].title).not.to.equal(
+              "Request from API"
+            );
+          });
+        });
+      });
   });
 });
