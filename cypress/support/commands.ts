@@ -32,8 +32,21 @@ declare namespace Cypress {
 }
 
 Cypress.Commands.add("loginToApplication", () => {
-  cy.visit("/login");
-  cy.get('[placeholder="Email"]').type("bokew24132@moneyzon.com");
-  cy.get('[placeholder="Password"]').type("111111");
-  cy.get("form").submit();
+  cy.request("POST", "https://api.realworld.io/api/users/login", {
+    user: {
+      email: "bokew24132@moneyzon.com",
+      password: "111111",
+    },
+  })
+    .its("body")
+    .then((body) => {
+      const token = body.user.token;
+      cy.wrap(token).as("token");
+
+      cy.visit("/", {
+        onBeforeLoad: (win) => {
+          win.localStorage.setItem("jwtToken", token);
+        },
+      });
+    });
 });
