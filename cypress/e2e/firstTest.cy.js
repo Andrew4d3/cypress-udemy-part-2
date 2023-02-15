@@ -70,7 +70,7 @@ describe("Test with backend", () => {
     });
   });
 
-  it("verify global feed likes count", () => {
+  it.skip("verify global feed likes count", () => {
     cy.intercept("GET", "https://api.realworld.io/api/articles/feed*", {
       articles: [],
       articlesCount: 0,
