@@ -10,7 +10,9 @@
     "lint": "ng lint --force",
     "cypress:run": "cypress run",
     "cypress:ci": "wait-on tcp:4200 && cypress run && kill-port 4200",
-    "e2e-server": "npm start & npm run cypress:ci"
+    "e2e-server": "npm start & npm run cypress:ci",
+    "cypress:dev": "cypress open --env username=foo@gmail.com,password=123456",
+    "cy:process": "cypress open --env username=$DB_USERNAME,password=$PASSWORD"
   },
   "pre-commit": [
     "lint"

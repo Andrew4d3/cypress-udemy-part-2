@@ -106,7 +106,7 @@ describe("Test with backend", () => {
     cy.get("@token").then((token) => {
       cy.request({
         method: "POST",
-        url: "https://api.realworld.io/api/articles/",
+        url: `${Cypress.env("apiUrl")}/api/articles/`,
         headers: {
           authorization: `Token ${token}`,
         },

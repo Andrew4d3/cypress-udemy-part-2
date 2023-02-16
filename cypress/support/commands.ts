@@ -34,8 +34,8 @@ declare namespace Cypress {
 Cypress.Commands.add("loginToApplication", () => {
   cy.request("POST", "https://api.realworld.io/api/users/login", {
     user: {
-      email: "bokew24132@moneyzon.com",
-      password: "111111",
+      email: Cypress.env("username"),
+      password: Cypress.env("password"),
     },
   })
     .its("body")
