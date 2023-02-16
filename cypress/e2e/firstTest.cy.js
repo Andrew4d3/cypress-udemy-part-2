@@ -28,7 +28,8 @@ describe("Test with backend", () => {
     });
   });
 
-  it("verify popular tags are displayed", () => {
+  // This will overide global config
+  it("verify popular tags are displayed", { retries: 2 }, () => {
     cy.intercept(
       { method: "Get", path: "tags" },
       {
@@ -70,7 +71,7 @@ describe("Test with backend", () => {
     });
   });
 
-  it.skip("verify global feed likes count", () => {
+  it("verify global feed likes count", () => {
     cy.intercept("GET", "https://api.realworld.io/api/articles/feed*", {
       articles: [],
       articlesCount: 0,
