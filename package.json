@@ -12,7 +12,9 @@
     "cypress:ci": "wait-on tcp:4200 && cypress run && kill-port 4200",
     "e2e-server": "npm start & npm run cypress:ci",
     "cypress:dev": "cypress open --env username=foo@gmail.com,password=123456",
-    "cy:process": "cypress open --env username=$DB_USERNAME,password=$PASSWORD"
+    "cy:process": "cypress open --env username=$DB_USERNAME,password=$PASSWORD",
+    "docker:cy:build": "docker build -t cy-suite .",
+    "docker:cy:run": "docker run cy-suite"
   },
   "pre-commit": [
     "lint"
