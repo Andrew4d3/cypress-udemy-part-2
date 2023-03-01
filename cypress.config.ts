@@ -2,6 +2,7 @@ import { defineConfig } from "cypress";
 
 // What do these configuration options do?
 export default defineConfig({
+  projectId: "igfaff",
   viewportHeight: 1080,
   viewportWidth: 1920,
   e2e: {
@@ -11,7 +12,7 @@ export default defineConfig({
       return config;
     },
   },
-  video: false,
+  video: true,
   env: {
     username: "bokew24132@moneyzon.com",
     password: "111111",

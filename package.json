@@ -19,7 +19,9 @@
     "cy:run:firefox": "cypress run --browser firefox",
     "cy:run:edge": "cypress run --browser edge",
     "cy:run:webkit": "cypress run --browser webkit",
-    "cy:run:firefox:headed": "cypress run --browser firefox --headed"
+    "cy:run:firefox:headed": "cypress run --browser firefox --headed",
+    "cy:run:cloud": "npx cypress run --record --key c18ae2ea-a112-4d23-9387-cdbd11f1004d",
+    "cy:run:cloud-group": "npm run cy:run:cloud -- --browser firefox --group Firefox --ci-build-id 1 & npm run cy:run:cloud -- --browser chrome --group Chrome --ci-build-id 1"
   },
   "pre-commit": [
     "lint"
